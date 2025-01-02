@@ -10,12 +10,12 @@ const todoSchema = mongoose.Schema({
     reqired: true,
   },
   status: {
-    type: Boolean,
+    type: String,
+    enum: ["pending", "completed"],
     reqired: true,
-    default: false,
+    default: "pending",
   },
 });
-
 
 // ================compiling our schema into a Model.============================
 const Todo = mongoose.model("Todo", todoSchema);
