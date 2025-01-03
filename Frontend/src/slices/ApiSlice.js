@@ -5,3 +5,5 @@ export const ApiSlice = createApi({
   tagTypes:["Todo"],
   endpoints: () => ({}),
 })
+
+// code splitting documentation

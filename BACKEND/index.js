@@ -2,6 +2,9 @@
 import express from "express";
 import connectDb from "./config/db.js";
 import todoRoutes from "../BACKEND/Routes/todoRoutes.js";
+import userRoutes from "../BACKEND/Routes/userRoutes.js";
+import { errorHandler, notFound } from "./middlewares/errorHandler.js";
+import cookieParser from "cookie-parser";
 
 // ===========calling the databasse============
 connectDb();
@@ -11,6 +14,7 @@ const app = express();
 // =================middle ware calling(requwst ntem respon ntem idakk ulla function)=====================
 
 app.use(express.json());
+app.use(cookieParser());
 
 // ===================for running this port=================================
 const port = 8000;
@@ -26,6 +30,12 @@ app.get("/", (req, res) => {
 // });
 
 app.use("/api/todo", todoRoutes);
+
+// user api
+app.use("/api/users", userRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 // ======================add value in a todo==============================
 

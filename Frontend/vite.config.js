@@ -12,3 +12,5 @@ export default defineConfig({
     },
   },
 });
+
+// the setup documentation in vite
