@@ -7,6 +7,7 @@ const addTodo = async (req, res) => {
   const todo = await Todo.create({
     title,
     desc,
+    user:req.user._id,
   });
 
   // response pass in a json format
@@ -14,7 +15,7 @@ const addTodo = async (req, res) => {
 };
 
 const getTodo = async (req, res) => {
-  const todos = await Todo.find({});
+  const todos = await Todo.find({user:req.user._id});
   res.json(todos);
 };
 

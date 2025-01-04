@@ -9,6 +9,8 @@ const protect = async (req, res, next) => {
     if (token) {
       try {
         // security key setup 
+
+        // token verification using secret key only() store payload(token nte ullil ullathinte ) object in decoded , that means user id
         const decoded = jwt.verify(token, "12345");
         console.log(decoded);
         req.user = await User.findById(decoded.userId).select("-password");

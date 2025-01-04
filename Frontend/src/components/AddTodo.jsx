@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import { useAddTodosMutation } from "../slices/todoApiSlice";
@@ -14,16 +14,21 @@ const AddTodo = ({ getTodos }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    await addTodo ({title,desc})
+    if (title.trim() === "" || desc.trim() === "") {
+      toast.error("Please fill in all fields");
+    }else{
 
-    // setIsLoading(true)
-    // await axios.post("/api/todo", { title, desc });
-    // setIsLoading(false)
-    setTitle("")
-    setDesc("")
-    toast.success("addes successfully");
-    // getTodos();
-  };
+      await addTodo ({title,desc})
+  
+      // setIsLoading(true)
+      // await axios.post("/api/todo", { title, desc });
+      // setIsLoading(false)
+      setTitle("")
+      setDesc("")
+      toast.success("addes successfully");
+      // getTodos();
+    };
+    }
   return (
     <form
       className="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200"

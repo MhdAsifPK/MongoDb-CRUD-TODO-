@@ -49,9 +49,9 @@ const authUser = async (req, res, next) => {
 
       res.cookie("jwt", token, {
         httpOnly: true, // after login jwt in stored in te frontends cookies as https only cookie , so request after login will be attactched with the jwt token stored in the cookies
-        secure: false, 
+        secure: false,
         sameSite: "strict", //privent csrf attack
-        maxage: 60 * 60 * 1000, //1 day inn milliseconds 
+        maxage: 60 * 60 * 1000, //1 day inn milliseconds
       });
       res
         .status(200)
@@ -65,4 +65,14 @@ const authUser = async (req, res, next) => {
   }
 };
 
-export { registerUser, authUser };
+// logout
+
+const logOut = (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expiresIn: new Date(0),
+  });
+  res.status(200).json({ message: "logged out successfully" });
+};
+
+export { registerUser, authUser, logOut };

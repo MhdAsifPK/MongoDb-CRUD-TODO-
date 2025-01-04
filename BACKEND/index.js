@@ -13,7 +13,11 @@ const app = express();
 
 // =================middle ware calling(requwst ntem respon ntem idakk ulla function)=====================
 
+
+// json format ne convert aakkan , normal kk(objet)
 app.use(express.json());
+
+// body kkk ullilulla data convert aakka (express tharaatthond)/incoming requst body kk ullil poyi cooki ullil ulla data access cheyyan
 app.use(cookieParser());
 
 // ===================for running this port=================================

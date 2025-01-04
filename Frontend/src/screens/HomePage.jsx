@@ -2,6 +2,7 @@ import AddTodo from "../components/AddTodo";
 import TodoList from "../components/TodoList";
 // import axios from "axios";
 import { useGetTodosQuery } from "../slices/todoApiSlice";
+import Navbar from "../components/Navbar";
 
 const HomePage = () => {
   // const [todos, setTodos] = useState([]);
@@ -18,6 +19,9 @@ const HomePage = () => {
   //   getTodos();
   // },[])
   return (
+    <>
+    <Navbar />
+    
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg overflow-hidden">
         <h1 className="text-3xl font-bold">Todo Manager</h1>
@@ -30,6 +34,7 @@ const HomePage = () => {
         </main>
       </div>
     </div>
+    </>
   );
 };
 
