@@ -5,6 +5,8 @@ import todoRoutes from "../BACKEND/Routes/todoRoutes.js";
 import userRoutes from "../BACKEND/Routes/userRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+dotenv.config()
 
 // ===========calling the databasse============
 connectDb();
@@ -21,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // ===================for running this port=================================
-const port = 8000;
+const port = process.env.PORT;
 
 // =====================response handling for port==========================
 app.get("/", (req, res) => {

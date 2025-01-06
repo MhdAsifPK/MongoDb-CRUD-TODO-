@@ -1,8 +1,9 @@
 import User from "../Models/userMode.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import asyncHandler from "../middlewares/asyncHandler.js";
 
-const registerUser = async (req, res, next) => {
+const registerUser = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
 
   try {
@@ -32,38 +33,33 @@ const registerUser = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-};
+})
 
 // user authentication function
-const authUser = async (req, res, next) => {
+const authUser = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
+  const user = await User.findOne({ email });
 
-  try {
-    const user = await User.findOne({ email });
+  if (user && (await user.matchPassword(password))) {
+    // jwt token creation
+    let token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1d",
+    });
 
-    if (user && (await user.matchPassword(password))) {
-      // jwt token creation
-      let token = jwt.sign({ userId: user._id }, "12345", {
-        expiresIn: "1d",
-      });
-
-      res.cookie("jwt", token, {
-        httpOnly: true, // after login jwt in stored in te frontends cookies as https only cookie , so request after login will be attactched with the jwt token stored in the cookies
-        secure: false,
-        sameSite: "strict", //privent csrf attack
-        maxage: 60 * 60 * 1000, //1 day inn milliseconds
-      });
-      res
-        .status(200)
-        .json({ _id: user._id, name: user.name, email: user.email });
-    } else {
-      res.status(400);
-      throw new Error("invalid email and password");
-    }
-  } catch (err) {
-    next(err);
+    res.cookie("jwt", token, {
+      httpOnly: true, // after login jwt in stored in te frontends cookies as https only cookie , so request after login will be attactched with the jwt token stored in the cookies
+      secure: false,
+      sameSite: "strict", //privent csrf attack
+      maxage: 60 * 60 * 1000, //1 day inn milliseconds
+    });
+    res
+      .status(200)
+      .json({ _id: user._id, name: user.name, email: user.email });
+  } else {
+    res.status(400);
+    throw new Error("invalid email and password");
   }
-};
+})
 
 // logout
 

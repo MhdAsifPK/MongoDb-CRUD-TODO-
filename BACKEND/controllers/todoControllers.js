@@ -1,6 +1,7 @@
+import asyncHandler from "../middlewares/asyncHandler.js";
 import Todo from "../Models/todoModel.js";
 
-const addTodo = async (req, res) => {
+const addTodo = asyncHandler(async (req, res) => {
   const { title, desc } = req.body;
 
   console.log(req.body);
@@ -8,30 +9,30 @@ const addTodo = async (req, res) => {
     title,
     desc,
     user:req.user._id,
-  });
+  })
 
   // response pass in a json format
   res.json(todo);
-};
+})
 
-const getTodo = async (req, res) => {
+const getTodo = asyncHandler(async (req, res) => {
   const todos = await Todo.find({user:req.user._id});
   res.json(todos);
-};
+});
 
-const deleteTodo = async (req, res) => {
+const deleteTodo =asyncHandler( async (req, res) => {
   const { id } = req.params;
   console.log(id);
   await Todo.findByIdAndDelete(id);
   res.send("deleted");
-};
+});
 
-const getTodoById = async (req, res) => {
+const getTodoById = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
   res.json(todo);
-};
+});
 
-const updateTodo = async (req, res) => {
+const updateTodo = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, desc,status } = req.body;
 
@@ -47,5 +48,5 @@ const updateTodo = async (req, res) => {
 
   // updated todo ne frontent kk pass aakka
   res.json(updatedTodo);
-};
+});
 export { addTodo, getTodo, deleteTodo, getTodoById, updateTodo };
